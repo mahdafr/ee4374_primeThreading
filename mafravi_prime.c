@@ -73,9 +73,17 @@ void *mini_shell(void *param)
 
 }
 
-int test_prime(int n)
-{
-
+//@modified Mahdokht Afravi, 80483123 on 04.04 T
+int test_prime(int n) {
+  //2 is prime
+  if ( n==2 )
+    return 1;
+  //n/2 has no remainder, not prime
+  if ( (n%2)==0 )
     return 0;
-
+  //from 3->sqrt(n)
+  for ( int i=3 ; i*i<=n ; i+=2 )
+    if ( (n%i)==0 )
+      return 0;
+  return 1;
 }
