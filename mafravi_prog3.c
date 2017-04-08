@@ -33,7 +33,18 @@ int main(int argc, char *argv[])
   /* Setup threads to find prime numbers */
   pthread_attr_init(&attr);
   numThreads = 2;
-  
+
+  //@modified Mahdokht Afravi on 04.06 R
+  //create the two threads
+  sPRIME_THREAD ptd[MAX_THREADS];
+  ptd[0].num = 1;
+  ptd[0].low = 1;
+  ptd[0].high = 2500000;
+  pthread_create(&(tid[0]),&attr,prime_search,&(ptd[0]));
+  ptd[1].num = 2;
+  ptd[1].low = 2500001;
+  ptd[1].high = 5000000;
+  pthread_create(&(tid[1]),&attr,prime_search,&(ptd[1]));
 
   /* Setup a mini shell thread to provide interactivity with the user */
   pthread_create(&tidshell,&attr,mini_shell,NULL);
@@ -46,36 +57,36 @@ int main(int argc, char *argv[])
 
   /* Wait for the prime search threads to complete and combine their data */
   for(i = 0; i < numThreads; i++)
-  {
-  	/* Wait for the next thread to complete */
-  	pthread_join(tid[i],NULL);
-  	/* On thread completion, write its data to "primest" */
-    fileName[0] = '\0';
-    sprintf(fileName, "primes%d", i+1);					// Open the thread's data file
-    if((primeThreadFile = fopen(fileName,"r")) == NULL)
     {
-    	printf("Failed to open file: %s\n", fileName);
-    }
-    else
-    {
-    	if((primeFile = fopen("primest","a")) == NULL)	// Open "primest"
-    	{
-    		printf("Failed to open file: primest\n");
-    	}
-    	else
-    	{
-    		while(feof(primeThreadFile) == 0)
-			{
-				/* Read from the thread's data file */
-				bytesRead = fread(buffer,1,BUFFER_SIZE,primeThreadFile);
-				/* Write to the combined file */
-				bytesWritten = fwrite(buffer,1,bytesRead,primeFile);
-    		}
-			fclose(primeFile);
-    	}
-		fclose(primeThreadFile);
+      /* Wait for the next thread to complete */
+      pthread_join(tid[i],NULL);
+      /* On thread completion, write its data to "primest" */
+      fileName[0] = '\0';
+      sprintf(fileName, "primes%d", i+1);                 // Open the thread's data file
+      if((primeThreadFile = fopen(fileName,"r")) == NULL)
+	{
+	  printf("Failed to open file: %s\n", fileName);
 	}
-  }
+      else
+	{
+	  if((primeFile = fopen("primest","a")) == NULL)	// Open "primest"
+	    {
+	      printf("Failed to open file: primest\n");
+	    }
+	  else
+	    {
+	      while(feof(primeThreadFile) == 0)
+		{
+		  /* Read from the thread's data file */
+		  bytesRead = fread(buffer,1,BUFFER_SIZE,primeThreadFile);
+		  /* Write to the combined file */
+		  bytesWritten = fwrite(buffer,1,bytesRead,primeFile);
+    		}
+	      fclose(primeFile);
+	    }
+	  fclose(primeThreadFile);
+	}
+    }
   
   /* Record execution time */
   after = time(NULL);
