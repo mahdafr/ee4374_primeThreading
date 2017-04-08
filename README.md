@@ -12,4 +12,4 @@ To do this task, I modified the mini_shell(1) method to be sure it accesses both
 ### 5. Write the main() program so that two threads can find the prime numbers up to 5 million.
 I uncommented the #if--#endif definitions in the mafravi_prog3.c main() function which allowed the threads to be not only created but also tracked in their calls to prime_search() and mini_shell().
 ### 6. Balance the search load to decrease the execution time as much as possible.
-Since my machine seems to want to complete integers up to 5 million in under 2 seconds with every test, my strategy is to increase from 5 million to 7 million. I will keep increasing and testing to break the load evenly across both threads.
+Since my machine seems to want to complete integers up to 5 million in under 2 seconds with every test, my strategy is to increase from 5 million to 7 million. I did keep increasing and testing to break the load evenly across both threads, since my test for 7 million did not slow it down. My last test is to divide the two threads the work of 15 million.
