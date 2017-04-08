@@ -42,11 +42,11 @@ int main(int argc, char *argv[])
   sPRIME_THREAD ptd[MAX_THREADS];
   ptd[0].num = 1;
   ptd[0].low = 1;
-  ptd[0].high = 7500000; //7 was 2
+  ptd[0].high = 7750000; //3500000; //2500000;
   pthread_create(&(tid[0]),&attr,prime_search,&(ptd[0]));
   ptd[1].num = 2;
-  ptd[1].low = 7500001; //7 was 2
-  ptd[1].high = 15000000; //15 was 5
+  ptd[1].low = 7750001; //3500001; //2500001;
+  ptd[1].high = 15000000; //7000000; //5000000;
   pthread_create(&(tid[1]),&attr,prime_search,&(ptd[1]));
   //#if 0
 
