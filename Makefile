@@ -7,4 +7,4 @@ mafravi_prime.o: mafravi_prime.c mafravi_prime.h
 	gcc -c mafravi_prime.c
 
 clean:
-	rm *.o; rm mafravi_prog3; rm *~; rm primes1; rm primes2; #del *.o; del mafravi_prog3; del *~; del primes1; del primes2
+	rm *.o; rm mafravi_prog3; rm *~; #rm primes1; rm primes2; rm primest #del *.o; del mafravi_prog3; del *~; del primes1; del primes2; del primest

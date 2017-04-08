@@ -34,6 +34,9 @@ int main(int argc, char *argv[])
   pthread_attr_init(&attr);
   numThreads = 2;
 
+  /* Setup a mini shell thread to provide interactivity with the user */
+  pthread_create(&tidshell,&attr,mini_shell,NULL);
+
   //@modified Mahdokht Afravi on 04.06 R
   //create the two threads
   sPRIME_THREAD ptd[MAX_THREADS];
@@ -45,11 +48,7 @@ int main(int argc, char *argv[])
   ptd[1].low = 2500001;
   ptd[1].high = 5000000;
   pthread_create(&(tid[1]),&attr,prime_search,&(ptd[1]));
-
-  /* Setup a mini shell thread to provide interactivity with the user */
-  pthread_create(&tidshell,&attr,mini_shell,NULL);
-  
-#if 0
+  //#if 0
 
   /* Create primes output file */
   primeFile = fopen("primest","w");
@@ -62,14 +61,14 @@ int main(int argc, char *argv[])
       pthread_join(tid[i],NULL);
       /* On thread completion, write its data to "primest" */
       fileName[0] = '\0';
-      sprintf(fileName, "primes%d", i+1);                 // Open the thread's data file
+      sprintf(fileName, "primes%d", i+1);    // Open the thread's data file
       if((primeThreadFile = fopen(fileName,"r")) == NULL)
 	{
 	  printf("Failed to open file: %s\n", fileName);
 	}
       else
 	{
-	  if((primeFile = fopen("primest","a")) == NULL)	// Open "primest"
+	  if((primeFile = fopen("primest","a")) == NULL)    // Open "primest"
 	    {
 	      printf("Failed to open file: primest\n");
 	    }
@@ -91,7 +90,7 @@ int main(int argc, char *argv[])
   /* Record execution time */
   after = time(NULL);
   printf("\nPrime search done after %ld seconds\n", after-before);
-#endif
+  //#endif
 
   sleep(20);
   

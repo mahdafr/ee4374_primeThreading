@@ -21,17 +21,24 @@ unsigned char buff[BUFF_SIZE+1];
 void *prime_search(void *param) {
   //@modified Mahdokht Afravi on 04.06 R
   sPRIME_THREAD *p = (struct sPRIME_THREAD *) param;
+  //save this parameter to its appropriate primeThreadData
+  primeThreadData[p->num-1].num = p->num;
+  primeThreadData[p->num-1].low = p->low;
+  primeThreadData[p->num-1].high = p->high;
   //open the file to read/write to it
   FILE *f;
-  //write(1,p->num,10);
   if ( p->num==1 ) f = fopen("primes1","a");
   else f = fopen("primes2","a");
   if ( f!=NULL ) { //file opened successfully
-    for ( (p->current)=(p->low) ; (p->current)<=(p->high) ; p->current++ )
+    for ( (p->current)=(p->low) ; (p->current)<=(p->high) ; p->current++ ) {
+      primeThreadData[p->num-1].current = p->current; //storing globally
       if ( test_prime((p->current)) )
 	fprintf(f,"%d\n",p->current); //write the prime to the file in a new line
+    }
     fclose(f);
+    return p;
   }
+  return p;
 }
 
 void *mini_shell(void *param) {
